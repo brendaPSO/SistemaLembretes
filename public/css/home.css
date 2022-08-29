@@ -13,18 +13,12 @@ h3 {
 }
 
 .nome {
-    border: 1px solid rgb(182, 182, 182);
-    border-radius: 10px;
-    width: 300px;
     margin: 10px 0;
     padding: 0;
 
 }
 
 .data {
-    border: 1px solid rgb(182, 182, 182);
-    border-radius: 10px;
-    width: 300px;
     margin: 10px 0;
     padding: 0;
 }
@@ -40,10 +34,10 @@ input {
     width: 200px;
     height: 40px;
     border: 0px;
-    color: rgb(83, 83, 83);
+    color: rgb(53, 53, 53);
 }
 
-button {
+#bt-enviar{
     background-color: rgb(7, 60, 109);
     color: white;
     width: 80px;
@@ -54,6 +48,29 @@ button {
     border-radius: 10px;
 }
 
-form {
-    width: 300px;
+button.btn_excluir {
+    background-color: rgb(161, 0, 0);
+    color: white;
+    width: 50px;
+    height: 35px;
+    margin: 10px 0;
+    padding: 5px;
+    border: 0;
+    border-radius: 10px;
 }
+
+table {
+    width: 60%;
+    margin-bottom: 30px;
+}
+
+td {
+    border-bottom: 1px solid gray;
+}
+
+th {
+    background-color: rgb(149, 199, 255);
+    padding: 10px;
+    border-radius: 10px;
+}
+

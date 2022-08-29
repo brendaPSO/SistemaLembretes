@@ -11,7 +11,6 @@
 </head>
 
 <body>
-
     <head>
         <h2>
             NOVO LEMBRETE
@@ -22,7 +21,7 @@
         <form action="lembrete/salvar" method="post">
             <div class="nome">
                 <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome">
+                <input type="text" id="nome" name="nome" placeholder="Nome do lembrete">
             </div>
 
             <div class="data">
@@ -45,15 +44,30 @@
         <div id="listLembretes">
             <?php
                 foreach($model->lembretes as $key =>$lembrete ){
-                    echo '<h4>'.$key.'</h4>';
-                   foreach($lembrete as $item)
-                   {
-                        echo "<p>".$item.'</p>';
-                        echo '<form action="lembrete/excluir" method="post">';
-                        echo '<input type="hidden" name= "id" value="'.$item.'">';
-                        echo "<button type='submit' class='btn_excluir' >Excluir</button>";
-                        echo '</form>';
-                   }
+                    ?>
+                    <table>
+                        <tr>
+                            <th colspan="2" align="left"><?php echo $key ?></th>
+                        </tr>
+                    <?php
+
+                    foreach($lembrete as $item)
+                    {
+                        ?>
+                            <tr>
+                                <td width="90%" ><?php echo $item ?></td>
+                                <td  align="right">
+                                    <form action="lembrete/excluir" method="post">
+                                        <input type="hidden" name= "id" value="<?php echo $item ?>">
+                                        <button type='submit' class='btn_excluir'>Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php
+                    }
+                    ?>
+                        </table>
+                    <?php
                 }
             ?>
         </div>

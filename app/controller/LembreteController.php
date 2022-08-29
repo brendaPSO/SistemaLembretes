@@ -16,8 +16,10 @@
     {
         $lembrete = new LembreteModel();
         $lembrete->nome = $_POST['nome'];
-        $lembrete->data = $_POST['data'];
-
+        $data = $_POST['data'];
+        $data = new DateTime($data);
+        $data = date_format($data, "d/m/Y");
+        $lembrete->data = $data;
         if ($lembrete->nome == '' || $lembrete->data == '') {
             $lembrete->error = "Necessário preencher todos os campos";
         }else {
