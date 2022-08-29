@@ -40,7 +40,7 @@
         <!-- Exibe mensagem de erro -->
         <?php
         if ($params != null && $params['erro'] != null && $params['erro']  != '') {
-            echo $params['erro'];
+            echo "<p style='color: red;'>".$params['erro'];
         }
         ?>
 

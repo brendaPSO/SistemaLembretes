@@ -39,6 +39,10 @@ class LembreteController
                 throw new Exception("Data deve estar no futuro.");
             }
 
+            if (strtotime($lembrete->data) > strtotime('01/01/2100')) {
+                throw new Exception("Data máxima.");
+            }
+
             $lembrete->inserir();
 
             Controller::redirect('/');
