@@ -15,16 +15,16 @@ class LembreteModel {
     }
     
 
-    public function save(){
-          $this->repository->insert($this);      
+    public function inserir(){
+          $this->repository->inserir($this);      
     }
 
-    public function all(){
-        $this->lembretes =$this->repository->all();
+    public function obterTodos(){
+        $this->lembretes =$this->repository->obterTodos();
     }
 
-    public function delete($id){
-        $this->repository->delete_bd($id);      
+    public function deletar($id){
+        $this->repository->deletar($id);      
   }
 }
 

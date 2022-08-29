@@ -7,7 +7,7 @@
 
     public static function index(){
         $model = new LembreteModel();
-        $model->all();
+        $model->obterTodos();
         
         include 'app/view/home.php';
     }
@@ -21,7 +21,7 @@
         if ($lembrete->nome == '' || $lembrete->data == '') {
             $lembrete->error = "Necessário preencher todos os campos";
         }else {
-            $lembrete->save();
+            $lembrete->inserir();
         }
         include 'app/view/home.php';
         header('Location: /');
@@ -32,8 +32,8 @@
         $lembrete = new LembreteModel();
         $id = $_POST['id'];
 
-        $lembrete->delete($id);
+        $lembrete->deletar($id);
 
-        // header('Location: /');
+        header('Location: /');
     }
 }

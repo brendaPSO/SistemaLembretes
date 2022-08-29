@@ -2,94 +2,87 @@
 
 class LembreteRepository
 {
+    private $arquivo;
 
-    private $file;
-    private $ler;
-    private $escrever;
-
-    public function __construct()
+    public function inserir(LembreteModel $model)
     {
-        $this->file = fopen("cadastros.txt", "a");
+        $this->arquivo = fopen("cadastros.txt", "a");
+     
+        fwrite($this->arquivo, $model->data);
+        fwrite($this->arquivo, ", ");
+        fwrite($this->arquivo, $model->nome);
+        fwrite($this->arquivo, "\n");
+
+        fclose($this->arquivo);
     }
 
-    public function insert(LembreteModel $model)
+    public function obterTodos()
     {
-        fwrite($this->file, $model->data);
-        fwrite($this->file, ", ");
-        fwrite($this->file, $model->nome);
-        fwrite($this->file, "\n");
-        fclose($this->file);
-        return;
-    }
-
-    public function all()
-    {
-        $this->ler = fopen("cadastros.txt", "r");
-        $lista = [];
+        $registros = $this->lerArquivo();
         $datas = [];
-        //ler do arquivo todos os dados
-        while (!feof($this->ler)) {
-            //Mostra uma linha do arquivo
-            $aux = fgets($this->ler);
-            if($aux!='')
-            $lista[]= $aux;
+        $lembrete = [];
+
+        foreach ($registros as $registro) {
+            $datas[] = $this->obterData($registro);
         }
 
-        fclose($this->ler);
-
-        foreach ($lista as $key => $dado) {
-            $datas[] = explode(',', $dado)[0];
-        }
         $datas = array_unique($datas);
-        $data2 = [];
 
         foreach ($datas as  $data) {
+            foreach ($registros as $registro) {
 
-            foreach ($lista as $dado) {
+                if ($data ==$this->obterData($registro)) {
+                    if (!array_key_exists($data, $lembrete)) 
+                        $lembrete[$data] = [];
 
-                $info = explode(',', $dado);
-                if ($data == $info[0]) {
-
-                    if (!array_key_exists($data, $data2)) {
-
-                        $data2[$data] = [];
-                    }
-         
-                    array_push($data2[$data], $info[1]);
+                        array_push($lembrete[$data], $this->obterAnotacao($registro));
                 }
             }
         }
 
-        return $data2;
+        return $lembrete;
     }
 
-
-    public function delete_bd($id)
+    public function deletar($id)
     {
         $id = trim(strtoupper($id));
-        $this->ler = fopen("cadastros.txt", "r");
-        $lista = [];
-        //ler do arquivo todos os dados
-        while (!feof($this->ler)) {
-            //Mostra uma linha do arquivo
-            $aux = fgets($this->ler);
-            if($aux!='')
-            $lista[]= $aux;
-        }
+        $registros = $this->lerArquivo();
 
-        fclose($this->ler);
-
-        foreach ($lista as $key => $dado) {
-            $data = trim(strtoupper(explode(',', $dado)[1]));
+        foreach ($registros as $key => $registro) {
+            $data = trim(strtoupper($this->obterAnotacao($registro)));
             if($id == $data){
-                unset($lista[$key]);
+                unset($registros[$key]);
             }
         }
-        
 
-        $string = implode("", $lista);
-        $this->escrever = fopen("cadastros.txt", "w+");
-        fwrite($this->file, $string);
-        fclose($this->escrever);
+        $registros = implode( $registros);
+        $this->arquivo = fopen("cadastros.txt", "w+");
+        fwrite($this->arquivo, $registros);
+        fclose($this->arquivo);
     }
+
+
+    private function lerArquivo(){
+        $this->arquivo = fopen("cadastros.txt", "r");
+        $registros=[];
+        //ler do arquivo todos os dados
+        while (!feof($this->arquivo)) {
+            //Mostra uma linha do arquivo
+            $aux = fgets($this->arquivo);
+            if($aux!='')
+            $registros[]= $aux;
+        }
+
+        fclose($this->arquivo);
+        return $registros;
+    }
+    
+    private function obterData($registro){
+        return explode(',', $registro)[0];
+     }
+
+     private function obterAnotacao($registro){
+         return explode(',', $registro)[1];
+      }
+ 
 }
