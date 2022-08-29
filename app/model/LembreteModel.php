@@ -7,14 +7,12 @@ class LembreteModel {
     public $nome;
     public $data;
     public $lembretes;
-    public $error;
 
     public function __construct()
     {
         $this->repository = new LembreteRepository();
     }
     
-
     public function inserir(){
           $this->repository->inserir($this);      
     }
@@ -27,5 +25,3 @@ class LembreteModel {
         $this->repository->deletar($id);      
   }
 }
-
-?>

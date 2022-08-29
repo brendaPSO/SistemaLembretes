@@ -11,12 +11,14 @@
 </head>
 
 <body>
+
     <head>
         <h2>
             NOVO LEMBRETE
         </h2>
     </head>
 
+    <!-- Criar novo lembrete -->
     <section id="formSection">
         <form action="lembrete/salvar" method="post">
             <div class="nome">
@@ -33,46 +35,54 @@
         </form>
     </section>
 
+    <!-- Listar lembretes -->
     <section>
-        <!-- <?php
-            
-            if ($lembrete != null && $lembrete->error != null) {
-                echo $lembrete->error;
-            }
-        ?> -->
+        <!-- Exibe mensagem de erro -->
+        <?php
+        if ($params != null && $params['erro'] != null && $params['erro']  != '') {
+            echo $params['erro'];
+        }
+        ?>
+
         <h3>Lista de Lembretes</h3>
         <div id="listLembretes">
+            <!-- Testa se existe lembretes cadastrados -->
             <?php
-                foreach($model->lembretes as $key =>$lembrete ){
-                    ?>
+            if ($model != NULL && $model->lembretes != NULL) {
+                foreach ($model->lembretes as $key => $lembrete) {
+            ?>
                     <table>
                         <tr>
-                            <th colspan="2" align="left"><?php echo $key ?></th>
+                            <th colspan="2" align="left"><?php echo  date_format(new DateTime($key), "d/m/Y") ?></th>
                         </tr>
-                    <?php
+                        <?php
 
-                    foreach($lembrete as $item)
-                    {
+                        foreach ($lembrete as $item) {
                         ?>
                             <tr>
-                                <td width="90%" ><?php echo $item ?></td>
-                                <td  align="right">
+                                <td width="90%"><?php echo $item ?></td>
+                                <td align="right">
                                     <form action="lembrete/excluir" method="post">
-                                        <input type="hidden" name= "id" value="<?php echo $item ?>">
+                                        <input type="hidden" name="id" value="<?php echo $item ?>">
                                         <button type='submit' class='btn_excluir'>Excluir</button>
                                     </form>
                                 </td>
                             </tr>
                         <?php
-                    }
-                    ?>
-                        </table>
-                    <?php
+                        }
+                        ?>
+                    </table>
+            <?php
                 }
+            } else {
+                echo "Nenhum lembrete cadastrado.";
+            }
             ?>
         </div>
 
     </section>
+    <!-- Fim listar lembretes -->
+    
 </body>
 
 </html>

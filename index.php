@@ -2,12 +2,18 @@
 
 include 'app/controller/LembreteController.php';
 
-$url= parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ;
+$url_components = parse_url($_SERVER['REQUEST_URI']);
+$url = $url_components['path'];
+$params=null;
+
+if (array_key_exists('query', $url_components)) 
+    parse_str($url_components['query'], $params);
+
 
 switch($url){
     
         case'/':
-         LembreteController::index();
+        LembreteController::index($params);
         break;
         case'/lembrete/salvar':
             LembreteController::salvar();
